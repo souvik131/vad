@@ -35,7 +35,7 @@ class AudioStreamingApp {
     }
     async connect() {
         try {
-            this.ws = new WebSocket('wss://serverify.me/ws');
+            this.ws = new WebSocket('ws://127.0.0.1:3001');
             this.ws.onopen = () => {
                 this.updateStatus('Connected to Python VAD Server', 'connected');
                 this.connectButton.disabled = true;
@@ -202,3 +202,4 @@ class AudioStreamingApp {
 document.addEventListener('DOMContentLoaded', () => {
     new AudioStreamingApp();
 });
+//# sourceMappingURL=app.js.map

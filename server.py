@@ -249,7 +249,7 @@ async def main():
     
     try:
         # Start the WebSocket server
-        start_server = websockets.serve(audio_websocket_handler, "localhost", 3001)
+        start_server = websockets.serve(audio_websocket_handler, "0.0.0.0", 3001)
         logger.info("Server started on ws://localhost:3001")
         
         # Run the server
