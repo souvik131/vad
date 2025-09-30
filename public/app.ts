@@ -67,7 +67,7 @@ class AudioStreamingApp {
 
     private async connect(): Promise<void> {
         try {
-            this.ws = new WebSocket('ws://localhost:3001');
+            this.ws = new WebSocket('wss://serverify.me/ws');
             
             this.ws.onopen = () => {
                 this.updateStatus('Connected to Python VAD Server', 'connected');
