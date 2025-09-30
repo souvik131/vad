@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  vad-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: vad-backend
+    ports:
+      - "3001:3001"
+    networks:
+      - vad-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import websockets; import asyncio; asyncio.run(websockets.connect('ws://localhost:3001').close())"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  vad-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: vad-frontend
+    ports:
+      - "3002:3002"
+    networks:
+      - vad-network
+    depends_on:
+      vad-backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002"\]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  vad-network:
+    driver: bridge
+
+volumes:
+  vad-data:
+    driver: local
