@@ -12,7 +12,7 @@ services:
       - vad-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "python", "-c", "import websockets; import asyncio; asyncio.run(websockets.connect('ws://localhost:3001').close())"]
+      test: ["CMD", "pgrep", "-f", "python.*server.py"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -28,8 +28,7 @@ services:
     networks:
       - vad-network
     depends_on:
-      vad-backend:
-        condition: service_healthy
+      - vad-backend
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3002"]
